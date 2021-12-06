@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useWalletConnect = () => {
-  const [walletAddress, setWalletAddress] = useState(null);
+  const [walletAddress, setWalletAddress] = useState();
 
   const checkIfWalletConnected = async () => {
     try {
@@ -28,6 +28,7 @@ const useWalletConnect = () => {
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletConnected();
+      console.log("I got called");
     };
 
     window.addEventListener("load", onLoad);
@@ -39,12 +40,12 @@ const useWalletConnect = () => {
 
     if (solana) {
       const response = await solana.connect();
-      console.log("Connected with Public Key:", response.publicKey.toString());
-      setWalletAddress(response.publicKey.toString());
+      const pubKey = response.publicKey.toString();
+      setWalletAddress(pubKey);
     }
   };
 
-  return { walletAddress, connectWallet };
+  return { walletAddress, connectWallet, setWalletAddress };
 };
 
 export default useWalletConnect;

@@ -1,7 +1,17 @@
 import useWalletConnect from "../hooks/useWalletConnect";
 
 const NotConnectedContainer = () => {
-  const { connectWallet } = useWalletConnect();
+  const { setWalletAddress } = useWalletConnect();
+
+  const connectWallet = async () => {
+    const { solana } = window;
+
+    if (solana) {
+      const response = await solana.connect();
+      const pubKey = response.publicKey.toString();
+      setWalletAddress(pubKey);
+    }
+  };
 
   return (
     <button

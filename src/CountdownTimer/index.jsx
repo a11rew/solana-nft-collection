@@ -31,11 +31,11 @@ const CountdownTimer = ({ dropDate }) => {
         clearInterval(interval);
       }
     };
-  }, []);
+  }, [dropDate]);
 
   return (
     <div className="timer-container">
-      <p className="timer-header">Candy Drop Starting In</p>
+      <p className="timer-header">Starting In</p>
       {timerString && <p className="timer-value">{`⏰ ${timerString}`}</p>}
     </div>
   );

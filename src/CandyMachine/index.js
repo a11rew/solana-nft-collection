@@ -358,7 +358,6 @@ const CandyMachine = ({ walletAddress }) => {
   }, []);
 
   const currentDate = new Date();
-  const dropDate = new Date(machineStats.goLiveData * 1000);
 
   return (
     machineStats && (
@@ -372,7 +371,10 @@ const CandyMachine = ({ walletAddress }) => {
           <button
             className="cta-button mint-button"
             onClick={mintToken}
-            disabled={isMinting || currentDate < dropDate}
+            disabled={
+              isMinting ||
+              currentDate < new Date(machineStats.goLiveData * 1000)
+            }
           >
             Mint NFT
           </button>
