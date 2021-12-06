@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import twitterLogo from "./assets/twitter-logo.svg";
+import CandyMachine from "./CandyMachine";
 import NotConnectedContainer from "./components/NotConnectedContainer";
 import useWalletConnect from "./hooks/useWalletConnect";
 
@@ -11,10 +12,12 @@ const App = () => {
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <p className="header">🍭 Candy Drop</p>
-          <p className="sub-text">NFT drop machine with fair mint</p>
+          <p className="header">Quahog Informer</p>
+          <p className="sub-text">Family Guy NFT drop machine</p>
           {!walletAddress && <NotConnectedContainer />}
         </div>
+        {walletAddress && <CandyMachine walletAddress={window.solana} />}
+
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
           <a
