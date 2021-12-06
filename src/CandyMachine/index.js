@@ -9,6 +9,7 @@ import {
   TOKEN_METADATA_PROGRAM_ID,
   SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
 } from "./helpers";
+import MintedItems from "../components/MintedItems";
 const {
   metadata: { Metadata, MetadataProgram },
 } = programs;
@@ -310,6 +311,25 @@ const CandyMachine = ({ walletAddress }) => {
       goLiveData,
       goLiveDateTimeString,
     });
+
+    const data = await fetchHashTable(
+      process.env.REACT_APP_CANDY_MACHINE_ID,
+      true
+    );
+
+    if (data.length !== 0) {
+      for (const mint of data) {
+        // Get URI
+        const response = await fetch(mint.data.uri);
+        const parse = await response.json();
+        console.log("Past Minted NFT", mint);
+
+        // Get image URI
+        if (!mints.find((mint) => mint === parse.image)) {
+          setMints((prevState) => [...prevState, parse.image]);
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -321,9 +341,14 @@ const CandyMachine = ({ walletAddress }) => {
       <div className="machine-container">
         <p>{`Drop Date: ${machineStats.goLiveDateTimeString}`}</p>
         <p>{`Items Minted: ${machineStats.itemsRedeemed} / ${machineStats.itemsAvailable}`}</p>
-        <button className="cta-button mint-button" onClick={mintToken}>
+        <button
+          className="cta-button connect-wallet-button"
+          onClick={mintToken}
+        >
           Mint NFT
         </button>
+
+        {mints.length > 0 && <MintedItems mints={mints} />}
       </div>
     )
   );

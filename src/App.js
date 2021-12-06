@@ -10,15 +10,16 @@ const App = () => {
 
   return (
     <div className="App">
+      <div className="bg-image" />
       <div className="container">
         <div className="header-container">
-          <p className="header">Quahog Informer</p>
-          <p className="sub-text">Family Guy NFT drop machine</p>
+          <p className="header">The Quahog Informer</p>
+          <p className="sub-text">Family Guy NFT drop</p>
           {!walletAddress && <NotConnectedContainer />}
         </div>
         {walletAddress && <CandyMachine walletAddress={window.solana} />}
 
-        <div className="footer-container">
+        {/* <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
           <a
             className="footer-text"
@@ -26,7 +27,7 @@ const App = () => {
             target="_blank"
             rel="noreferrer"
           >{`built by @a11rew on @_buildpsace`}</a>
-        </div>
+        </div> */}
       </div>
     </div>
   );
