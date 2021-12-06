@@ -1,0 +1,19 @@
+{
+  "name": "COOL_BRIAN",
+  "symbol": "",
+  "image": "2.png",
+  "properties": {
+    "files": [
+      {
+        "uri": "2.png",
+        "type": "image/png"
+      }
+    ],
+    "creators": [
+      {
+        "address": "27D2PMs7Wx29ptnX6bQbYEQ7AQr98S2EhM9QjRLE8Yqi",
+        "share": 100
+      }
+    ]
+  }
+}
