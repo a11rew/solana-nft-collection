@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import twitterLogo from "./assets/twitter-logo.svg";
 import CandyMachine from "./CandyMachine";
 import NotConnectedContainer from "./components/NotConnectedContainer";
 import useWalletConnect from "./hooks/useWalletConnect";
@@ -13,7 +12,7 @@ const App = () => {
       <div className="bg-image" />
       <div className="container">
         <div className="header-container">
-          <p className="header">The Quahog Informer</p>
+          <p className="header">📜 The Quahog Informer</p>
           <p className="sub-text">Family Guy NFT drop</p>
           {!walletAddress && <NotConnectedContainer />}
         </div>

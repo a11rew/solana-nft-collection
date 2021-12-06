@@ -10,6 +10,8 @@ import {
   SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
 } from "./helpers";
 import MintedItems from "../components/MintedItems";
+import CountdownTimer from "../CountdownTimer";
+
 const {
   metadata: { Metadata, MetadataProgram },
 } = programs;
@@ -28,6 +30,7 @@ const MAX_CREATOR_LEN = 32 + 1 + 1;
 const CandyMachine = ({ walletAddress }) => {
   const [machineStats, setMachineStats] = useState(null);
   const [mints, setMints] = useState([]);
+  const [isMinting, setIsMinting] = useState(false);
 
   // Actions
   const fetchHashTable = async (hash, metadataEnabled) => {
@@ -112,6 +115,7 @@ const CandyMachine = ({ walletAddress }) => {
   };
 
   const mintToken = async () => {
+    setIsMinting(true);
     try {
       const mint = web3.Keypair.generate();
       const token = await getTokenWallet(
@@ -222,6 +226,7 @@ const CandyMachine = ({ walletAddress }) => {
 
       console.warn(message);
     }
+    setIsMinting(false);
   };
 
   const createAssociatedTokenAccountInstruction = (
@@ -332,22 +337,46 @@ const CandyMachine = ({ walletAddress }) => {
     }
   };
 
+  const renderDropTimer = () => {
+    // Get the current date and dropDate in a JavaScript Date object
+    const currentDate = new Date();
+    const dropDate = new Date(machineStats.goLiveData * 1000);
+
+    // If currentDate is before dropDate, render our Countdown component
+    if (currentDate < dropDate) {
+      console.log("Before drop date!");
+      // Don't forget to pass over your dropDate!
+      return <CountdownTimer dropDate={dropDate} />;
+    }
+
+    // Else let's just return the current drop date
+    return <p>{`Drop Date: ${machineStats.goLiveDateTimeString}`}</p>;
+  };
+
   useEffect(() => {
     getCandyMachineState();
   }, []);
 
+  const currentDate = new Date();
+  const dropDate = new Date(machineStats.goLiveData * 1000);
+
   return (
     machineStats && (
       <div className="machine-container">
-        <p>{`Drop Date: ${machineStats.goLiveDateTimeString}`}</p>
+        {renderDropTimer()}
         <p>{`Items Minted: ${machineStats.itemsRedeemed} / ${machineStats.itemsAvailable}`}</p>
-        <button
-          className="cta-button connect-wallet-button"
-          onClick={mintToken}
-        >
-          Mint NFT
-        </button>
 
+        {machineStats.itemsRedeemed === machineStats.itemsAvailable ? (
+          <p className="sub-text">Sold Out welp!</p>
+        ) : (
+          <button
+            className="cta-button mint-button"
+            onClick={mintToken}
+            disabled={isMinting || currentDate < dropDate}
+          >
+            Mint NFT
+          </button>
+        )}
         {mints.length > 0 && <MintedItems mints={mints} />}
       </div>
     )
